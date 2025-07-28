@@ -1,0 +1,21 @@
+package com.springprojects.SpringAOP;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Component;
+
+@Aspect
+@Component
+public class AspectInfo 
+{
+	@Before ("execution(* com.springprojects.SpringAOP.SongService.*(..))")
+	public void logmsg()
+	{
+		System.out.println("Before song service");
+	}
+	@After ("execution(* com.springprojects.SpringAOP.SongService.*(..))")
+	public void logmsg1()
+	{
+		System.out.println("After song service");
+	}
+}
