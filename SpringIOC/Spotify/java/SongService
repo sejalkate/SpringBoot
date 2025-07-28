@@ -1,0 +1,57 @@
+package com.tka.service;
+import java.util.List;
+import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.tka.dao.SongRepository;
+import com.tka.entity.Song;
+
+@Service
+public class SongService
+{
+	@Autowired
+	SongRepository repo;
+	
+	public String saveSong(Song song) 
+	{
+		String id = UUID.randomUUID().toString();
+		song.setId(id);
+		repo.save(song);
+		return "saved succefully";
+	}
+
+	public Song getSong(String id)
+	{
+		Song song = repo.findById(id).get();
+		return song;
+	}
+
+	public List<Song> getAllSongs() 
+	{
+		List<Song> songs = repo.findAll();
+		return songs;
+	}
+
+	public String editSong(String id, String name) 
+	{
+		Song song = repo.findById(id).get();
+		song.setName(name);
+		repo.save(song);
+		return "upadated succesfully";
+
+	}
+
+	public Song getSongByName(String name)
+	{
+		Song song = repo.findByName(name);
+		System.out.println(song);
+		return song;
+	}
+
+	public String deleteSong(String id)
+	{
+		Song song = repo.findById(id).get();
+		repo.delete(song);
+		return "deleted succesfully";
+	}
+}
