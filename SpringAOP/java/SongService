@@ -1,0 +1,11 @@
+package com.springprojects.SpringAOP;
+import org.springframework.stereotype.Service;
+
+@Service
+public class SongService
+{
+	public void display()
+	{
+		System.out.println("Displaying song");
+	}
+}
