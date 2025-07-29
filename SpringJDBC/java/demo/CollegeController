@@ -1,0 +1,44 @@
+package com.SpringBootWithJDBC.demo.controller;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import com.SpringBootWithJDBC.demo.entity.College;
+import com.SpringBootWithJDBC.demo.service.CollegeService;
+
+@RestController
+public class CollegeController
+{
+	@Autowired
+	CollegeService service;
+	@GetMapping("/viewbyid")
+	public College getCollege(int clg_id) throws Exception
+	{
+		return service.getCollege(clg_id);
+	}
+	@PostMapping("/addclg")
+	public void addCollege(@RequestBody College college) throws Exception
+	{
+		service.addCollege(college);
+	}
+	@GetMapping("/getclglist")
+	public List<College> getClgList() throws Exception
+	{
+		return service.getClgList();
+	}
+	@PostMapping("/addclglist")
+	public void addClgList(@RequestBody List<College> ls) throws Exception
+	{
+		service.addClgList(ls);
+	}
+	@DeleteMapping("/delete/{id}")
+	public void deleteCollege(@PathVariable int id) throws Exception
+	{
+		service.deleteCollege(id);
+	}
+}
