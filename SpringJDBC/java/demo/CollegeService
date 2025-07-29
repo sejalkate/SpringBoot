@@ -1,0 +1,47 @@
+package com.SpringBootWithJDBC.demo.service;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.SpringBootWithJDBC.demo.dao.CollegeDAO;
+import com.SpringBootWithJDBC.demo.entity.College;
+@Component
+public class CollegeService
+{
+	@Autowired
+	CollegeDAO dao;
+	public College getCollege(int id) throws Exception
+	{
+		return dao.getCollege(id);
+	}
+	public void addCollege(College college) throws Exception 
+	{
+		if(dao.addCollege(college)>0)
+		{
+			System.out.println("Data inserted successfully");
+		}
+		else
+		{
+			System.out.println("Data insertion failed!");
+		}
+	}
+	public List<College> getClgList() throws Exception 
+	{
+		return dao.getClgList();
+	}
+	public void addClgList(List<College> ls) throws Exception
+	{
+		if(dao.addClgList(ls)>0)
+		{
+			//int rowcount=dao.addClgList(ls);
+			//System.out.println(rowcount+"rows inserted successfully");
+		}
+	}
+	public void deleteCollege(int id) throws Exception
+	{
+		dao.deleteCollege(id);
+	}
+}
