@@ -1,0 +1,41 @@
+package com.SpringBootWithJDBC.demo.entity;
+import org.springframework.stereotype.Component;
+@Component
+public class College 
+{
+	private int clg_id;
+	private String clg_name;
+	private String city;
+	public int getClg_id() {
+		return clg_id;
+	}
+	public void setClg_id(int clg_id) {
+		this.clg_id = clg_id;
+	}
+	public String getClg_name() {
+		return clg_name;
+	}
+	public void setClg_name(String clg_name) {
+		this.clg_name = clg_name;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public College(int clg_id, String clg_name, String city) {
+		super();
+		this.clg_id = clg_id;
+		this.clg_name = clg_name;
+		this.city = city;
+	}
+	public College() {
+		super();
+	}
+	@Override
+	public String toString() {
+		return "College [clg_id=" + clg_id + ", clg_name=" + clg_name + ", city=" + city + "]";
+	}
+	
+}
