@@ -1,0 +1,102 @@
+package com.SpringBootWithJDBC.demo.dao;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
+import com.SpringBootWithJDBC.demo.entity.College;
+
+@Component
+public class CollegeDAO 
+{
+	private static final String URL="jdbc:mysql://localhost:3306/CMS";
+	private static final String username="root";
+	private static final String password="tiger";
+	private PreparedStatement pstmt=null;
+	Connection con=null;
+	
+	//Establishing connection
+	Connection get_DB_Connection() throws Exception
+	{
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		con=DriverManager.getConnection(URL, username, password);
+		return con;
+	}
+	
+	//View College By ID
+	public College getCollege(Integer clg_id) throws Exception
+	{
+		String query="select * from college where clg_id=?";
+		pstmt=get_DB_Connection().prepareStatement(query);
+		pstmt.setInt(1, clg_id);
+		ResultSet rs=pstmt.executeQuery();
+		College college=null;
+		while(rs.next())
+		{
+			int id=rs.getInt(1);
+			String clg_name=rs.getString(2);
+			String city=rs.getString(3);
+			college=new College(clg_id,clg_name,city);
+		}
+		return college;
+	}
+	
+	//View all colleges
+	public List<College> getClgList() throws Exception
+	{
+		String query = "select * from college";
+		pstmt = get_DB_Connection().prepareStatement(query);
+		ResultSet rs = pstmt.executeQuery();
+		List<College> ls = new ArrayList<College>();
+		while (rs.next()) {
+			int id = rs.getInt(1);
+			String name = rs.getString(2);
+			String city = rs.getString(3);
+			ls.add(new College(id, name, city));
+		}
+		return ls;
+	}
+	
+	//Add a college
+	public int addCollege(College college) throws Exception
+	{
+		int rowcount=0;
+		String query="insert into college values(?,?,?)";
+		pstmt=get_DB_Connection().prepareStatement(query);
+		pstmt.setInt(1,college.getClg_id());
+		pstmt.setString(2,college.getClg_name());
+		pstmt.setString(3,college.getCity());
+		rowcount=pstmt.executeUpdate();
+		return rowcount;
+	}
+	
+	//Add multiple colleges
+	public int addClgList(List<College> ls) throws Exception 
+	{
+		int rowcount=0;
+		String query = "insert into college values(?,?,?)";
+		pstmt = get_DB_Connection().prepareStatement(query);
+		for(College college:ls)
+		{
+			pstmt.setInt(1,college.getClg_id());
+			pstmt.setString(2,college.getClg_name());
+			pstmt.setString(3,college.getCity());
+			pstmt.executeUpdate();
+			rowcount++;
+		}
+		return rowcount;
+	}
+	
+	//Delete College
+	public void deleteCollege(int id) throws Exception
+	{
+		String query="delete from college where clg_id=?";
+		pstmt=get_DB_Connection().prepareStatement(query);
+		pstmt.setInt(1,id);
+		pstmt.executeUpdate();
+	}
+}
